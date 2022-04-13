@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:wakelock/wakelock.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,8 +12,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MacosApp(
+    return MacosApp(
       title: "Wake Lock",
+      theme: MacosThemeData.light(),
+      darkTheme: MacosThemeData.dark(),
+      home: const WakeLockPage(),
     );
   }
 }
@@ -24,16 +29,48 @@ class WakeLockPage extends StatefulWidget {
 }
 
 class _WakeLockPageState extends State<WakeLockPage> {
-  int pageIndex = 0;
+  bool switchState = false;
 
   @override
   Widget build(BuildContext context) {
-    return const MacosWindow(
-      child: MacosScaffold(
-        titleBar: TitleBar(
-          title: Text("abc"),
+    return MacosWindow(
+      child: RawKeyboardListener(
+        autofocus: true,
+        focusNode: FocusNode(),
+        onKey: (event) {
+          if (event is RawKeyDownEvent) {
+            if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
+              setState(() {
+                switchState = !switchState;
+              });
+            }
+          }
+        },
+        child: MacosScaffold(
+          children: [
+            ContentArea(
+              builder: (context, scrollController) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                          "Wake Lock is ${switchState ? 'enabled' : 'disabled'}."),
+                      const SizedBox(height: 10),
+                      MacosSwitch(
+                        value: switchState,
+                        onChanged: (value) {
+                          setState(() => switchState = value);
+                          Wakelock.toggle(enable: switchState);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-        children: [],
       ),
     );
   }
