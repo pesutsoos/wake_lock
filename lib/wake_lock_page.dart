@@ -1,11 +1,12 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' hide MenuItem;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:macos_ui/macos_ui.dart';
+
 import 'package:tray_manager/tray_manager.dart';
 import 'package:wakelock/wakelock.dart';
 
@@ -86,6 +87,9 @@ class _WakeLockPageState extends State<WakeLockPage> with TrayListener {
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Wrap(
+                              alignment: WrapAlignment.center,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              spacing: 10,
                               children: [
                                 MacosTooltip(
                                   message: "Cancel timer",
@@ -109,9 +113,6 @@ class _WakeLockPageState extends State<WakeLockPage> with TrayListener {
                                   ),
                                 ),
                               ],
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              spacing: 10,
                             ),
                           )
                         : const SizedBox.shrink(),
@@ -171,20 +172,20 @@ class _WakeLockPageState extends State<WakeLockPage> with TrayListener {
     }
   }
 
-  List<MenuItem> _buildMenuItems(bool wakeLockEnabled) {
+  Menu _buildMenuItems(bool wakeLockEnabled) {
     return wakeLockEnabled
-        ? [
+        ? Menu(items: [
             MenuItem(
-              title: "Disable wake lock",
+              label: "Disable wake lock",
               key: disableKey,
             ),
-          ]
-        : [
+          ])
+        : Menu(items: [
             MenuItem(
-              title: "Enable wake lock",
+              label: "Enable wake lock",
               key: enableKey,
             ),
-          ];
+          ]);
   }
 
   String _getLockIconPath() {
