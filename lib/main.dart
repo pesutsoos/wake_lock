@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:wake_lock/ping_page.dart';
 import 'package:wake_lock/wake_lock_page.dart';
+import 'package:wake_lock/youtube_playlist.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,7 @@ class _MainWindowState extends State<MainWindow> {
   final List<Widget> _pages = const [
     WakeLockPage(),
     PingPage(),
+    YouTubePlaylist(),
   ];
 
   @override
@@ -53,11 +55,15 @@ class _MainWindowState extends State<MainWindow> {
                 leading: MacosIcon(CupertinoIcons.dot_square),
                 label: Text("Ping"),
               ),
+              SidebarItem(
+                leading: MacosIcon(CupertinoIcons.play_rectangle),
+                label: Text("YouTube playlist info"),
+              ),
             ],
             scrollController: controller,
           );
         },
-        minWidth: 200,
+        minWidth: 250,
       ),
       child: IndexedStack(
         index: _sidebarIndex,

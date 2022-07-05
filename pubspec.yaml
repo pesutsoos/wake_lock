@@ -29,16 +29,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  macos_ui: ^1.4.1+1
+  macos_ui: ^1.5.0
   wakelock: ^0.6.1+2
-  tray_manager: ^0.1.7
+  tray_manager: ^0.1.8
   flutter_countdown_timer: ^4.1.0
   dart_ping: ^6.1.2
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.4
+  youtube_explode_dart: ^1.12.0
+  cupertino_icons: ^1.0.5
 
 dev_dependencies:
   flutter_test:
